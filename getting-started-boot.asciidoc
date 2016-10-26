@@ -1,6 +1,6 @@
-== Getting Started with Vaadin Spring and Spring Boot
+= Getting Started with Vaadin Spring and Spring Boot
 
-include::note.asciidoc[]
+[[include:note.asciidoc]]
 
 During this tutorial we will create a new Spring Boot project, add Vaadin and Vaadin Spring as dependencies, create a simple Spring UI and run the application.
 
