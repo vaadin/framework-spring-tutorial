@@ -1,0 +1,30 @@
+== Getting Started with Vaadin Spring and Spring Boot
+
+include::note.asciidoc[]
+
+During this tutorial we will create a new Spring Boot project, add Vaadin and Vaadin Spring as dependencies, create a simple Spring UI and run the application.
+
+=== Creating a Spring Boot project
+The easiest way to get started is to go to http://start.spring.io and fill in the necessary details. Make sure you at least select Vaadin. The rest of the tutorial uses lambdas, so Java 8 is recommended but not required. Then download the generated project as a Maven Project and open it up in your favorite IDE.
+
+image::img/spring-initializr.png[Project Creation]
+
+Import the generated project into your IDE - if using Eclipse, use Import... -> Existing Maven Projects.
+
+Now you can create your Vaadin UI. Create a new UI class in your project and annotate it with @SpringUI e.g. like this:
+
+[source, java]
+.MyUI.java
+----
+@SpringUI
+public class MyVaadinUI extends UI {
+    @Override
+    protected void init(VaadinRequest vaadinRequest) {
+        setContent(new Label("Hello! I'm the root UI!"));
+    }
+}
+----
+
+Run the main(String[]) method in the generated Application class and point your browser to http://localhost:8080 . Voila!
+
+Further configuration of the Vaadin Spring application and alternatives to using Spring Boot will be covered in later tutorials. For the next steps, continue at link::injection.asciidoc[Injection and Scopes with Vaadin Spring].
