@@ -12,6 +12,7 @@ question we will be addressing is "How do I gain access to Spring features in a 
 == Introduction
 
 At the end of these tutorials you will have learned how to
+
 . Set up a Vaadin Spring project using Spring Boot
 . Create UI's and Views with Vaadin Spring
 . Use injection with standard and Vaadin Spring scopes
