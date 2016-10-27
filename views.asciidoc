@@ -2,19 +2,22 @@
 
 
 == Spring Views
-We'll start off by modifying the UI we made in the previous tutorials to use `Views`. To do that we'll inject a
-`SpringViewProvider` and instantiate a `Navigator`.
+We'll start off by modifying the UI we made in the previous tutorials to use `Views`.
+////
+todo remove?
+////
+To do that we'll inject a `SpringViewProvider` and instantiate a `Navigator`.
+
 
 [source, java]
 .MyUI.java
 ----
 @Theme("mytheme")
 @SpringUI
-public class MyUI extends UI {
+@ViewContainer
+public class MyUI extends UI implements ViewDisplay {
 
-    // we can use either constructor autowiring or field autowiring
-    @Autowired
-    private SpringViewProvider viewProvider;
+    private Panel viewContainer;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -24,13 +27,11 @@ public class MyUI extends UI {
         root.setSpacing(true);
         setContent(root);
 
-        final Panel viewContainer = new Panel();
+        viewContainer = new Panel();
         viewContainer.setSizeFull();
         root.addComponent(viewContainer);
         root.setExpandRatio(viewContainer, 1.0f);
 
-        Navigator navigator = new Navigator(this, viewContainer);
-        navigator.addProvider(viewProvider);
     }
 }
 ----
@@ -60,7 +61,7 @@ public class DefaultView extends VerticalLayout implements View {
 This view is registered automatically based on the `@SpringView` annotation. As it has an empty string as its view name,
 it will be shown when navigating to http://localhost:8080/ .
 
-To see how navigation between views works, we can create another view mapped to a different view name.Note the use of a
+To see how navigation between views works, we can create another view mapped to a different view name. Note the use of a
 constant for the view name, which is a good practice and allows you to easily refer to the views.
 
 [source, java]
@@ -83,7 +84,8 @@ public class ViewScopedView extends VerticalLayout implements View {
     }
 }
 ----
-Also this view is automatically registered as it has the `@SpringView` annotation, so we would be able to open it by opening http://localhost:8080#!view . However, we'll want to make it easy to enter the view, so let's add a navigation button for it in the UI:
+Also this view is automatically registered as it has the `@SpringView` annotation, so we would be able to open it by
+opening http://localhost:8080#!view . However, we'll want to make it easy to enter the view, so let's add a navigation button for it in the UI:
 
 [source, java]
 .MyUI.java
@@ -104,13 +106,11 @@ public class MyUI extends UI {
                 ViewScopedView.VIEW_NAME));
         root.addComponent(navigationBar);
 
-        final Panel viewContainer = new Panel();
+        viewContainer = new Panel();
         viewContainer.setSizeFull();
         root.addComponent(viewContainer);
         root.setExpandRatio(viewContainer, 1.0f);
 
-        Navigator navigator = new Navigator(this, viewContainer);
-        navigator.addProvider(viewProvider);
     }
 
     private Button createNavigationButton(String caption, final String viewName) {
@@ -125,7 +125,7 @@ public class MyUI extends UI {
 Now fire up the application class and go to http://localhost:8080/ to see this in action.
 
 == Views and Scopes
-Let's add one more view, this time a UI scoped view, and inject a Greeter into it:
+Let's add one more view, this time a UI scoped view, and inject a `Greeter` into it:
 
 [source, java]
 .UIScopedView.java
@@ -231,6 +231,6 @@ view is denied by any access control bean, the view provider will default act as
 You can also define a generic error view when the user tries to navigate to a view that does not exist. This is
 configured simply by calling `navigator.setErrorView(new ErrorView())` in your UI `init()` method or wherever the navigator is set up.
 
-Note that Spring Security is not covered by this tutorial. The unofficial add-on vaadin4spring that will build on top of
+Note that Spring Security is not covered by this tutorial. The unofficial add-on vaadin4spring that build on top of
 the official add-on also provides easy integration of Spring Security as well as a "sidebar" module that makes
 constructing a UI for navigation in a Vaadin Spring application easier.
