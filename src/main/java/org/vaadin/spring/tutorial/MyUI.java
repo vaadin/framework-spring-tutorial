@@ -10,7 +10,7 @@ import com.vaadin.ui.VerticalLayout;
 
 @Theme("valo")
 @SpringUI
-public class MyVaadinUI extends UI {
+public class MyUI extends UI {
 
     @Autowired
     private ViewPanel viewContainer;
