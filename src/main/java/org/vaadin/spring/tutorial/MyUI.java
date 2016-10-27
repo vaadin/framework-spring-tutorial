@@ -17,7 +17,7 @@ import com.vaadin.ui.themes.ValoTheme;
 @Theme("valo")
 @SpringUI
 @ViewContainer
-public class MyVaadinUI extends UI implements ViewDisplay {
+public class MyUI extends UI implements ViewDisplay {
 
     private Panel viewContainer;
 
