@@ -1,9 +1,13 @@
 = Vaadin Spring
+:imagesdir: img
 v1.1, 2016-10-26
 :toc: right
 
+:homepage: http://asciidoctor.org
+
 *Note*: this tutorial applies to Vaadin Spring 1.1
-During these tutorials we will be solving a number of common problems when using the Vaadin Spring plugin. The principal question we will be addressing is "How do I gain access to Spring features in a Vaadin project?"
+During these tutorials we will be solving a number of common problems when using the Vaadin Spring plugin. The principal
+question we will be addressing is "How do I gain access to Spring features in a Vaadin project?"
 
 == Introduction
 At the end of these tutorials you will have learned how to
@@ -19,7 +23,7 @@ configuration of said environment is outside the scope of these tutorials.
 The tutorials will build off one another, each starting where the previous left off. Various steps of the tutorial and
 alternative approaches will in the future be available as tags/branches at https://github.com/vaadin/spring-tutorial.
 
-=== Vaadin Spring for the impatient
+== Vaadin Spring for the impatient
 If you are eager to get started right away without following the tutorial, feel free to do so. There are still some practical details that are good to keep in mind if you're not familiar with Vaadin Spring or Spring in general.
 
 * *Objects must be injected* and managed by Spring in order to use Spring features.
@@ -28,16 +32,26 @@ don’t need to explicitly set up a servlet. Otherwise, add `@EnableVaadin` on a
 * *Annotate your UI class with `@SpringUI`* to let Vaadin Spring know that it should inject and use instances of that
 class when the application is opened in the browser.
 
+[[getting-started-boot]]
 = Getting Started with Vaadin Spring and Spring Boot
 
-== Creating a Spring Boot project
-The easiest way to get started is to go to https://start.spring.io/ and fill in the necessary details. Make sure you at least select Vaadin. The rest of the tutorial uses lambdas, so Java 8 is recommended but not required. Then download the generated project as a Maven Project and open it up in your favorite IDE.
+The fastest way to build and run a Spring application is to use Spring Boot. To build a Spring application without
+Spring Boot, refer to <<getting-started-no-boot>>.
 
-image::img/spring-initializr.png[Project Creation]
+== Creating a Spring Boot project
+
+The easiest way to get started is to go to https://start.spring.io/ and fill in the necessary details.
+
+
+Make sure you at least select Vaadin. The rest of the tutorial uses lambdas, so Java 8 is recommended but not required.
+Then download the generated project as a Maven Project and open it up in your favorite IDE.
+
+image::spring-initializr.png[Project Creation]
 
 Import the generated project into your IDE - if using Eclipse, use _Import...→Existing Maven Projects_.
 
-Now you can create your Vaadin UI. Create a new UI class in your project and annotate it with `@SpringUI` e.g. like this:
+== Creating your Vaadin UI
+Create a new UI class in your project and annotate it with `@SpringUI` e.g. like this:
 
 [source, java]
 .MyUI.java
@@ -53,22 +67,316 @@ public class MyUI extends UI {
 
 Run the `main(String[])` method in the generated Application class and point your browser to http://localhost:8080 . Voila!
 
+
+= Injection and Scopes with Vaadin Spring
+
+
+*Note* also that even though this tutorial covers some of the basics of Spring, this is not a tutorial for Spring. If you are not familiar with Spring and Spring Boot, you should consult their tutorials and documentation.
+
+== Injecting beans
+Now that the UI itself has been injected, we can use the `@Autowired` annotation to further inject beans to it. Let's create something for us to actually inject.
+We'll define the following class to inject to our UI:
+
+[source, java]
+.Greeter.java
+----
+package org.vaadin.spring.tutorial;
+
+import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.spring.annotation.UIScope;
+
+@SpringComponent
+@UIScope
+public class Greeter {
+    public String sayHello() {
+        return "Hello from bean " + toString();
+    }
+}
+----
+Note the annotations `@SpringComponent` and `@UIScope`, which will be explained below.
+
+So far so good, now we'll inject it into our UI.
+
+[source, java]
+.MyUI.java
+----
+@Theme("valo")
+@SpringUI
+public class MyUI extends UI {
+    @Autowired
+    private Greeter greeter;
+
+    @Override
+    protected void init(VaadinRequest request) {
+        setContent(new Label(greeter.sayHello()));
+    }
+}
+----
+
+Now let's run the application to see that an instance of the greeter has been injected to the UI.
+
+If you are not familiar with Spring, note that you can only auto-wire into Spring managed beans. In practice, this
+typically means that you can inject beans into a bean that has been injected, but not to one that has been created
+with `new MyBean()`. Refer to Spring documentation for a more complete coverage on this.
+
+If you are a habitual user of Spring, you may have been wondering about the use of `@SpringComponent` instead of
+`@Component`. Spring has an annotation `@Component` for classes that are candidates for auto-detection during
+classpath scanning, and Vaadin has an interface called `Component` for UI components. You cannot import the two in
+the same file, so to avoid the necessity to fully qualify one of these, Vaadin Spring provides an alias
+`@SpringComponent` for `org.springframework.stereotype.Component`. However, where there is no ambiguity
+(such as in the simple `Greeter` above), `org.springframework.stereotype.Component` can also be used directly.
+
+The `@UIScope` annotation is specific to Vaadin Spring. Anything injected with that annotation will get the same
+instance while within the same UI. Load a different UI and you'll get a different instance. If the session expires
+or the UI is closed, the instances will be cleaned up.
+
+Vaadin Spring also defines a view scope (`@ViewScope`), which will be covered in a later tutorial as well as a
+Vaadin session scope (`@VaadinSessionScope`), which also works with server push and background operations using
+`UI.access()`. Furthermore, the standard Spring scopes can be used with some restrictions. Most commonly, you would
+use `@Scope("prototype")` to inject a new instance every time that bean is injected. For thread safe background
+services, the scope `@Scope("singleton")` can be used, but it should not be used for Vaadin Components. The request and
+session scopes of Spring do not match exactly the Vaadin session and do not work in background threads such as in
+operations even when using `UI.access()`.
+
+== @SpringUI
+
+The `@SpringUI` annotation is the way in which you let the Vaadin Spring plugin know which UI's should be accessible to
+the user and how they should be mapped. It accepts one optional String parameter indicating the UI path. If an explicit
+path is not provided or an empty string is used as the path, the UI will be mapped to the context root.
+
+= Views and Navigation with Vaadin Spring
+
+== Spring Views
+To support navigation between views, the annotations `@SpringView` and `@ViewContainer` can be used.
+
+The views themselves should be annotated with `@SpringView` to be found by `SpringViewProvider`.
+
+Let's start with a default view:
+
+[source, java]
+.DefaultView.java
+----
+@SpringView(name = DefaultView.VIEW_NAME)
+public class DefaultView extends VerticalLayout implements View {
+    public static final String VIEW_NAME = "";
+
+    @PostConstruct
+    void init() {
+        addComponent(new Label("This is the default view"));
+    }
+
+    @Override
+    public void enter(ViewChangeEvent event) {
+        // This view is constructed in the init() method()
+    }
+}
+----
+
+This view is registered automatically based on the `@SpringView` annotation. As it has an empty string as its view name,
+it will be shown when navigating to http://localhost:8080/ .
+
+To see how navigation between views works, we can create another view mapped to a different view name. Note the use of a
+constant for the view name, which is a good practice and allows you to easily refer to the views.
+
+[source, java]
+.ViewScopedView.java
+----
+@SpringView(name = ViewScopedView.VIEW_NAME)
+public class ViewScopedView extends VerticalLayout implements View {
+    public static final String VIEW_NAME = "view";
+
+    @PostConstruct
+    void init() {
+        setMargin(true);
+        setSpacing(true);
+        addComponent(new Label("This is a view scoped view"));
+    }
+
+    @Override
+    public void enter(ViewChangeEvent event) {
+        // This view is constructed in the init() method()
+    }
+}
+----
+To define where in the UI the views are to be shown, a bean or a class implementing `ViewDisplay` or extending
+`(Single)ComponentContainer` should be annotated with `@ViewContainer`. In the simplest cases, this can be the UI class
+itself.
+
+Also this view is automatically registered as it has the `@SpringView` annotation, so after annotating the UI with
+`@ViewContainer` we would be able to open it by opening http://localhost:8080#!view . However, we'll want to make it
+easy to enter the view, so let's add a navigation button for it in the UI:
+
+[source, java]
+.MyUI.java
+----
+@Theme("valo")
+@SpringUI
+@ViewContainer
+public class MyUI extends UI implements ViewDisplay {
+
+    private Panel viewContainer;
+
+    @Override
+    protected void init(VaadinRequest request) {
+        final VerticalLayout root = new VerticalLayout();
+        root.setSizeFull();
+        root.setMargin(true);
+        root.setSpacing(true);
+        setContent(root);
+
+        final CssLayout navigationBar = new CssLayout();
+        navigationBar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
+        navigationBar.addComponent(createNavigationButton("View Scoped View",
+                ViewScopedView.VIEW_NAME));
+        root.addComponent(navigationBar);
+
+        viewContainer = new Panel();
+        viewContainer.setSizeFull();
+        root.addComponent(viewContainer);
+        root.setExpandRatio(viewContainer, 1.0f);
+
+    }
+
+    private Button createNavigationButton(String caption, final String viewName) {
+        Button button = new Button(caption);
+        button.addStyleName(ValoTheme.BUTTON_SMALL);
+        // If you didn't choose Java 8 when creating the project, convert this
+        // to an anonymous listener class
+        button.addClickListener(event -> getUI().getNavigator().navigateTo(viewName));
+        return button;
+    }
+
+    @Override
+    public void showView(View view) {
+        viewContainer.setContent((Component) view);
+    }
+}
+----
+Now fire up the application class and go to http://localhost:8080/ to see this in action.
+
+== Views and Scopes
+Let's add one more view, this time a UI scoped view, and inject a `Greeter` into it:
+
+[source, java]
+.UIScopedView.java
+----
+// Pay attention to the order of annotations
+@UIScope
+@SpringView(name = UIScopedView.VIEW_NAME)
+public class UIScopedView extends VerticalLayout implements View {
+    public static final String VIEW_NAME = "ui";
+
+    @Autowired
+    private Greeter greeter;
+
+    @PostConstruct
+    void init() {
+        setMargin(true);
+        setSpacing(true);
+        addComponent(new Label("This is a UI scoped view. Greeter says: " + greeter.sayHello()));
+    }
+
+    @Override
+    public void enter(ViewChangeEvent event) {
+        // This view is constructed in the init() method()
+    }
+}
+----
+After this, what remains is to add a navigation button for it in the UI:
+
+[source, java]
+.MyUI.java
+----
+        ...
+        navigationBar.addComponent(createNavigationButton("UI Scoped View",
+                UIScopedView.VIEW_NAME));
+        navigationBar.addComponent(createNavigationButton("View Scoped View",
+                ViewScopedView.VIEW_NAME));
+        ...
+----
+That's it.
+
+Note that now when navigating between the views, you always get the same instance of the UI scoped view (within the same UI) but a new instance of the view scoped view every time when navigating to it. To verify that this is the case, we can inject some more beans to our views:
+
+[source, java]
+.ViewGreeter.java
+----
+@SpringComponent
+@ViewScope
+public class ViewGreeter {
+    public String sayHello() {
+        return "Hello from a view scoped bean " + toString();
+    }
+}
+----
+Note the annotation `@ViewScope`, which makes the lifecycle and injection of instances of this bean view specific.
+
+[source, java]
+.ViewScopedView.java
+----
+@SpringView(name = ViewScopedView.VIEW_NAME)
+public class ViewScopedView extends VerticalLayout implements View {
+    public static final String VIEW_NAME = "view";
+
+    // A new instance will be created for every view instance created
+    @Autowired
+    private ViewGreeter viewGreeter;
+
+    // The same instance will be used by all views of the UI
+    @Autowired
+    private Greeter uiGreeter;
+
+    @PostConstruct
+    void init() {
+        setMargin(true);
+        setSpacing(true);
+        addComponent(new Label("This is a view scoped view"));
+        addComponent(new Label(uiGreeter.sayHello()));
+        addComponent(new Label(viewGreeter.sayHello()));
+    }
+
+    @Override
+    public void enter(ViewChangeEvent event) {
+        // This view is constructed in the init() method()
+    }
+}
+----
+Now when switching views, the UI scoped greeter instance and the UI scoped view will stay the same, whereas the view scoped greeter (and the view itself) will be regenerated every time when entering the view.
+
+== Access Control and Error Views
+
+When looking for accessible views, `SpringViewProvider` first looks for views that can be used with the current UI.
+It is possible to restrict a view to specific UI classes using an annotation parameter like `@SpringView(VIEW_NAME, ui={ MyUIClass.class })`.
+
+After selecting such candidate views, access to that view is checked in two phases with all the view access delegates
+that have been registered. Thus, any Spring bean implementing `ViewAccessControl` is first asked if access is granted to
+a view with the given bean name. If no access delegate blocks access to the view based on the bean name, a second check
+is made with a specific view instance by calling all beans implementing `ViewInstanceAccessControl`. If access to the
+view is denied by any access control bean, the view provider will default act as if the view didn't exist. However, an
+"access denied" view can be registered with `SpringViewProvider.setAccessDeniedViewClass()` if a specific "access denied" view is desired.
+
+You can also define a generic error view when the user tries to navigate to a view that does not exist. This is
+configured simply by calling `getNavigator().setErrorView(MyErrorView.class)` in your UI `init()` method.
+
+Note that Spring Security is not covered by this tutorial. The unofficial add-on vaadin4spring that builds on top of
+the official add-on and provides easy integration of Spring Security as well as a "sidebar" module that makes
+constructing a UI for navigation in a Vaadin Spring application easier.
+
+[[getting-started-no-boot]]
 = Getting started with Vaadin Spring without Spring Boot
 
-*Note that this tutorial is for using Vaadin Spring without Spring Boot. Using Spring Boot is the recommended approach for getting started quickly when creating a new project.*
-*For more information on using Vaadin Spring without Spring Boot,
-see this step [Getting Started with Vaadin Spring and Spring Boot].*
-////
-todo text and 2 cross references above
-////
+*Note that this step is for using Vaadin Spring without Spring Boot. Using Spring Boot is the recommended approach for
+getting started quickly when creating a new project.*
 
+For more information on using Vaadin Spring with Spring Boot,
+see the step <<getting-started-boot>>.
 
 == Creating a Vaadin project
 If you've created Vaadin projects before, there's nothing new here. _File→New→Project..._ then select Maven Project.
 This will take you to the project creation wizard. You can also create the project using Vaadin Plug-in for Eclipse
 if you prefer.
 
-image::img/project-creation-no-boot.png[Project Creation]
+image::project-creation-no-boot.png[Project Creation]
 
 Then select the Vaadin archetype (com.vaadin:vaadin-archetype-application:7.7.3). Set your group and
 artifact id and your package to your liking. (I used "org.vaadin", "spring.tutorial" and "org.vaadin.spring.tutorial"
@@ -243,84 +551,6 @@ Eclipse should automatically open an embedded browser directed at your developme
 
 Congratulations! You've deployed your first Spring application.
 
-
-
-= Injection and Scopes with Vaadin Spring
-
-
-*Note* also that even though this tutorial covers some of the basics of Spring, this is not a tutorial for Spring. If you are not familiar with Spring and Spring Boot, you should consult their tutorials and documentation.
-
-== Injecting beans
-Now that the UI itself has been injected, we can use the `@Autowired` annotation to further inject beans to it. Let's create something for us to actually inject.
-We'll define the following class to inject to our UI:
-
-[source, java]
-.Greeter.java
-----
-package org.vaadin.spring.tutorial;
-
-import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.spring.annotation.UIScope;
-
-@SpringComponent
-@UIScope
-public class Greeter {
-    public String sayHello() {
-        return "Hello from bean " + toString();
-    }
-}
-----
-Note the annotations `@SpringComponent` and `@UIScope`, which will be explained below.
-
-So far so good, now we'll inject it into our UI.
-
-[source, java]
-.MyUI.java
-----
-@Theme("valo")
-@SpringUI
-public class MyUI extends UI {
-    @Autowired
-    private Greeter greeter;
-
-    @Override
-    protected void init(VaadinRequest request) {
-        setContent(new Label(greeter.sayHello()));
-    }
-}
-----
-
-Now let's run the application to see that an instance of the greeter has been injected to the UI.
-
-If you are not familiar with Spring, note that you can only auto-wire into Spring managed beans. In practice, this
-typically means that you can inject beans into a bean that has been injected, but not to one that has been created
-with `new MyBean()`. Refer to Spring documentation for a more complete coverage on this.
-
-If you are a habitual user of Spring, you may have been wondering about the use of `@SpringComponent` instead of
-`@Component`. Spring has an annotation `@Component` for classes that are candidates for auto-detection during
-classpath scanning, and Vaadin has an interface called `Component` for UI components. You cannot import the two in
-the same file, so to avoid the necessity to fully qualify one of these, Vaadin Spring provides an alias
-`@SpringComponent` for `org.springframework.stereotype.Component`. However, where there is no ambiguity
-(such as in the simple `Greeter` above), `org.springframework.stereotype.Component` can also be used directly.
-
-The `@UIScope` annotation is specific to Vaadin Spring. Anything injected with that annotation will get the same
-instance while within the same UI. Load a different UI and you'll get a different instance. If the session expires
-or the UI is closed, the instances will be cleaned up.
-
-Vaadin Spring also defines a view scope (`@ViewScope`), which will be covered in a later tutorial as well as a
-Vaadin session scope (`@VaadinSessionScope`), which also works with server push and background operations using
-`UI.access()`. Furthermore, the standard Spring scopes can be used with some restrictions. Most commonly, you would
-use `@Scope("prototype")` to inject a new instance every time that bean is injected. For thread safe background
-services, the scope `@Scope("singleton")` can be used, but it should not be used for Vaadin Components. The request and
-session scopes of Spring do not match exactly the Vaadin session and do not work in background threads such as in
-operations even when using `UI.access()`.
-
-== @SpringUI
-
-The `@SpringUI` annotation is the way in which you let the Vaadin Spring plugin know which UI's should be accessible to
-the user and how they should be mapped. It accepts one optional String parameter indicating the UI path. If an explicit
-path is not provided or an empty string is used as the path, the UI will be mapped to the context root.
-
 = Configuring and Using Vaadin Spring without Spring Boot
 
 == Using Vaadin Spring without Spring Boot
@@ -474,7 +704,9 @@ simultaneously to e.g. support Spring MVC and Vaadin in the same application. If
 path “/VAADIN/*” to the Vaadin servlet for serving static resources. Note that there are some limitations for using the
 session scope of Spring with Vaadin (it does not work in WebSocket push requests etc.).
 
-= Vaadin Spring (Boot) configuration properties
+= Vaadin Spring tips
+
+== Vaadin Spring (Boot) configuration properties
 
 Your project, if generated by https://start.spring.io/, contains a configuration file
 "src/main/resources/application.properties" or similar YAML configuration file. It is a handy way to configure the
@@ -485,3 +717,18 @@ Your project, if generated by https://start.spring.io/, contains a configuration
 * _vaadin.servlet.closeIdleSessions=true_
 
 For full list of available properties, see https://github.com/vaadin/spring/blob/master/vaadin-spring-boot/src/main/java/com/vaadin/spring/boot/internal/VaadinServletConfigurationProperties.java[VaadinServletConfigurationProperties.java].
+
+== Automatic view name generation
+
+Using explicit view names is strongly recommended, but it is possible to omit the view name, in which case a name is automatically generated based on the class name. If an explicit name is not provided the class name of the UI will be used to construct a pathname by the following convention: any trailing "View" will be truncated and camelcase will be converted to hyphenated lowercase. Some examples of the convention:
+
+HelloWorldView → hello-world
+
+ExampleView → example
+
+VisualEditor → visual-editor
+
+== Listing Views
+
+The list of available views can be obtained from `SpringViewProvider` bean using `getViewNamesForCurrentUI()`.
+
