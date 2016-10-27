@@ -35,7 +35,7 @@ The easiest way to get started is to go to https://start.spring.io/ and fill in 
 
 image::img/spring-initializr.png[Project Creation]
 
-Import the generated project into your IDE - if using Eclipse, use Import... -> Existing Maven Projects.
+Import the generated project into your IDE - if using Eclipse, use _Import...→Existing Maven Projects_.
 
 Now you can create your Vaadin UI. Create a new UI class in your project and annotate it with `@SpringUI` e.g. like this:
 
@@ -64,16 +64,19 @@ todo text and 2 cross references above
 
 
 == Creating a Vaadin project
-If you've created Vaadin projects before, there's nothing new here. File→New→Project... then select Maven Project. This will take you to the project creation wizard. You can also create the project using Vaadin Plug-in for Eclipse if you prefer.
+If you've created Vaadin projects before, there's nothing new here. _File→New→Project..._ then select Maven Project.
+This will take you to the project creation wizard. You can also create the project using Vaadin Plug-in for Eclipse
+if you prefer.
 
 image::img/project-creation-no-boot.png[Project Creation]
 
-then select the Vaadin archetype (com.vaadin:vaadin-archetype-application://<newest Vaadin version>). Set your group and
-artifact id and your package to your liking. (I used org.vaadin, spring.tutorial and org.vaadin.spring.tutorial respectively)
+Then select the Vaadin archetype (com.vaadin:vaadin-archetype-application:7.7.3). Set your group and
+artifact id and your package to your liking. (I used "org.vaadin", "spring.tutorial" and "org.vaadin.spring.tutorial"
+respectively).
 
 == Adding Vaadin Spring as a dependency
 
-Open pom.xml and add
+Open "pom.xml" and add
 
 [source, xml]
 .pom.xml
@@ -234,7 +237,7 @@ src/main/webapp/WEB-INF/applicationContext.xml :
 A full description of alternative approaches to configuring Spring is outside the context of this tutorial and you should consult Spring documentation for them, but a brief introduction to them is given in this tutorial.
 
 == Deployment
-Once the UI is done we'll deploy it to our server by Run→Run as→Run on Server. Select your server runtime (Tomcat in our case) and click Finish.
+Once the UI is done we'll deploy it to our server by _Run→Run as→Run on Server_. Select your server runtime (Tomcat in our case) and click Finish.
 
 Eclipse should automatically open an embedded browser directed at your development server.
 
