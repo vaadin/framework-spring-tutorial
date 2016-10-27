@@ -1,15 +1,16 @@
 = Vaadin Spring
 :imagesdir: img
 v1.1, 2016-10-26
-:toc: right
-
+:toc: left
 :homepage: http://asciidoctor.org
 
 *Note*: this tutorial applies to Vaadin Spring 1.1
+
 During these tutorials we will be solving a number of common problems when using the Vaadin Spring plugin. The principal
 question we will be addressing is "How do I gain access to Spring features in a Vaadin project?"
 
 == Introduction
+
 At the end of these tutorials you will have learned how to
 . Set up a Vaadin Spring project using Spring Boot
 . Create UI's and Views with Vaadin Spring
@@ -24,7 +25,9 @@ The tutorials will build off one another, each starting where the previous left 
 alternative approaches will in the future be available as tags/branches at https://github.com/vaadin/spring-tutorial.
 
 == Vaadin Spring for the impatient
-If you are eager to get started right away without following the tutorial, feel free to do so. There are still some practical details that are good to keep in mind if you're not familiar with Vaadin Spring or Spring in general.
+
+If you are eager to get started right away without following the tutorial, feel free to do so. There are still some
+practical details that are good to keep in mind if you're not familiar with Vaadin Spring or Spring in general.
 
 * *Objects must be injected* and managed by Spring in order to use Spring features.
 * *Use `SpringVaadinServlet` and `VaadinConfiguration`.* When using Spring Boot, these are automatically set up and you
@@ -33,12 +36,12 @@ don’t need to explicitly set up a servlet. Otherwise, add `@EnableVaadin` on a
 class when the application is opened in the browser.
 
 [[getting-started-boot]]
-= Getting Started with Vaadin Spring and Spring Boot
+== Getting Started with Vaadin Spring and Spring Boot
 
 The fastest way to build and run a Spring application is to use Spring Boot. To build a Spring application without
 Spring Boot, refer to <<getting-started-no-boot>>.
 
-== Creating a Spring Boot project
+=== Creating a Spring Boot project
 
 The easiest way to get started is to go to https://start.spring.io/ and fill in the necessary details.
 
@@ -50,7 +53,7 @@ image::spring-initializr.png[Project Creation]
 
 Import the generated project into your IDE - if using Eclipse, use _Import...→Existing Maven Projects_.
 
-== Creating your Vaadin UI
+=== Creating your Vaadin UI
 Create a new UI class in your project and annotate it with `@SpringUI` e.g. like this:
 
 [source, java]
@@ -68,12 +71,11 @@ public class MyUI extends UI {
 Run the `main(String[])` method in the generated Application class and point your browser to http://localhost:8080 . Voila!
 
 
-= Injection and Scopes with Vaadin Spring
-
+== Injection and Scopes with Vaadin Spring
 
 *Note* also that even though this tutorial covers some of the basics of Spring, this is not a tutorial for Spring. If you are not familiar with Spring and Spring Boot, you should consult their tutorials and documentation.
 
-== Injecting beans
+=== Injecting beans
 Now that the UI itself has been injected, we can use the `@Autowired` annotation to further inject beans to it. Let's create something for us to actually inject.
 We'll define the following class to inject to our UI:
 
@@ -138,15 +140,15 @@ services, the scope `@Scope("singleton")` can be used, but it should not be used
 session scopes of Spring do not match exactly the Vaadin session and do not work in background threads such as in
 operations even when using `UI.access()`.
 
-== @SpringUI
+=== @SpringUI
 
 The `@SpringUI` annotation is the way in which you let the Vaadin Spring plugin know which UI's should be accessible to
 the user and how they should be mapped. It accepts one optional String parameter indicating the UI path. If an explicit
 path is not provided or an empty string is used as the path, the UI will be mapped to the context root.
 
-= Views and Navigation with Vaadin Spring
+== Views and Navigation with Vaadin Spring
 
-== Spring Views
+=== Spring Views
 To support navigation between views, the annotations `@SpringView` and `@ViewContainer` can be used.
 
 The views themselves should be annotated with `@SpringView` to be found by `SpringViewProvider`.
@@ -254,7 +256,7 @@ public class MyUI extends UI implements ViewDisplay {
 ----
 Now fire up the application class and go to http://localhost:8080/ to see this in action.
 
-== Views and Scopes
+=== Views and Scopes
 Let's add one more view, this time a UI scoped view, and inject a `Greeter` into it:
 
 [source, java]
@@ -343,7 +345,7 @@ public class ViewScopedView extends VerticalLayout implements View {
 ----
 Now when switching views, the UI scoped greeter instance and the UI scoped view will stay the same, whereas the view scoped greeter (and the view itself) will be regenerated every time when entering the view.
 
-== Access Control and Error Views
+=== Access Control and Error Views
 
 When looking for accessible views, `SpringViewProvider` first looks for views that can be used with the current UI.
 It is possible to restrict a view to specific UI classes using an annotation parameter like `@SpringView(VIEW_NAME, ui={ MyUIClass.class })`.
@@ -363,7 +365,7 @@ the official add-on and provides easy integration of Spring Security as well as 
 constructing a UI for navigation in a Vaadin Spring application easier.
 
 [[getting-started-no-boot]]
-= Getting started with Vaadin Spring without Spring Boot
+== Getting started with Vaadin Spring without Spring Boot
 
 *Note that this step is for using Vaadin Spring without Spring Boot. Using Spring Boot is the recommended approach for
 getting started quickly when creating a new project.*
@@ -371,7 +373,7 @@ getting started quickly when creating a new project.*
 For more information on using Vaadin Spring with Spring Boot,
 see the step <<getting-started-boot>>.
 
-== Creating a Vaadin project
+=== Creating a Vaadin project
 If you've created Vaadin projects before, there's nothing new here. _File→New→Project..._ then select Maven Project.
 This will take you to the project creation wizard. You can also create the project using Vaadin Plug-in for Eclipse
 if you prefer.
@@ -382,7 +384,7 @@ Then select the Vaadin archetype (com.vaadin:vaadin-archetype-application:7.7.3)
 artifact id and your package to your liking. (I used "org.vaadin", "spring.tutorial" and "org.vaadin.spring.tutorial"
 respectively).
 
-== Adding Vaadin Spring as a dependency
+=== Adding Vaadin Spring as a dependency
 
 Open "pom.xml" and add
 
@@ -411,7 +413,7 @@ in the dependencies. If your project does not use the Vaadin add-on Maven reposi
 
 Then save and update the project.
 
-== Creating the UI
+=== Creating the UI
 
 The project wizard created a UI for us that we'll use as a starting point for building our application. There are some
 unnecessary things we'll take out and some things we'll need to add. We'll also have to make a few changes to the UI to
@@ -544,16 +546,16 @@ src/main/webapp/WEB-INF/applicationContext.xml :
 
 A full description of alternative approaches to configuring Spring is outside the context of this tutorial and you should consult Spring documentation for them, but a brief introduction to them is given in this tutorial.
 
-== Deployment
+=== Deployment
 Once the UI is done we'll deploy it to our server by _Run→Run as→Run on Server_. Select your server runtime (Tomcat in our case) and click Finish.
 
 Eclipse should automatically open an embedded browser directed at your development server.
 
 Congratulations! You've deployed your first Spring application.
 
-= Configuring and Using Vaadin Spring without Spring Boot
+== Configuring and Using Vaadin Spring without Spring Boot
 
-== Using Vaadin Spring without Spring Boot
+=== Using Vaadin Spring without Spring Boot
 In the previous tutorial steps, Spring Boot was used to initialize the context, configuration and servlet. This is the
 easiest way to set up a Spring application, but Spring also offers various other approaches both to configuration and
 to servlet startup.
@@ -572,7 +574,7 @@ bootstrapping a Vaadin Spring application and loading the appropriate `WebApplic
 Note that this page is not meant to be a complete reference - for more information on each of the approaches,
 refer to Spring documentation.
 
-== Configuration options
+=== Configuration options
 Every Spring web application has one or more `ApplicationContexts` (typically an optional root context and a context
 per servlet), which provide read-only configuration for an application and e.g. bean factory methods for accessing
 application components. For Vaadin Spring, any of the context variants can be used. However, the selected context should
@@ -582,7 +584,7 @@ It is possible to mix different application contexts and e.g. import an `@Config
 is as a bean or to import XML configuration from an `@Configuration` class with `@ImportResource`.
 Refer to Spring documentation for more details on this.
 
-=== Annotation based configuration
+==== Annotation based configuration
 
 The recommended configuration option with Vaadin Spring is to use annotation based configuration
 (`AnnotationConfigWebApplicationContext`) and configuration classes annotated with `@Configuration`,
@@ -609,7 +611,7 @@ When using this approach, you can register the configuration class `VaadinConfig
 class with `@EnableVaadin`) in the context to bootstrap Vaadin Spring configuration. See below for an example of doing
 this with a `WebApplicationInitializer`.
 
-=== XML configuration
+==== XML configuration
 
 If using XML based configuration of Spring (`XmlWebApplicationContext`), register the configuration class as a bean and
 enable annotation based configuration with `<context:annotation-config/>` or component scanning with
@@ -632,12 +634,12 @@ enable annotation based configuration with `<context:annotation-config/>` or com
 </beans>
 ----
 
-== Bootstrapping a Vaadin Spring application
+=== Bootstrapping a Vaadin Spring application
 
 There are several options to start a `SpringVaadinServlet` (or a custom subclass of `VaadinServlet` that registers a
 `SpringUIProvider` if using e.g. Vaadin TouchKit) so that it has a suitable application context.
 
-=== Using ContextLoaderListener directly
+==== Using ContextLoaderListener directly
 
 An easy way to load the application context for a Spring application is to use a `ContextLoaderListener` as a servlet
 context listener to start and stop a Spring root `WebApplicationContext`. Once registered in your web.xml, with the
@@ -661,7 +663,7 @@ file above for an example of bootstrapping JavaConfig with this approach.
 public class MyListener extends ContextLoaderListener {}
 ----
 
-=== Using a WebApplicationInitializer
+==== Using a WebApplicationInitializer
 
 A Spring `WebApplicationInitializer` can be used to manually set up a servlet and a context for it. Classes implementing
 `WebApplicationInitializer` are automatically scanned for and used to initialize servlets. Here is a simple example of
@@ -692,7 +694,7 @@ public class WebContextInitializer implements WebApplicationInitializer {
 }
 ----
 
-=== A note on Spring DispatcherServlet and Spring MVC
+==== A note on Spring DispatcherServlet and Spring MVC
 
 Spring MVC uses `DispatcherServlet`, which supports yet another method for bootstrapping by having the servlet
 initialize its own application context if none is configured from outside. However, `DispatcherServlet` makes some
@@ -704,9 +706,9 @@ simultaneously to e.g. support Spring MVC and Vaadin in the same application. If
 path “/VAADIN/*” to the Vaadin servlet for serving static resources. Note that there are some limitations for using the
 session scope of Spring with Vaadin (it does not work in WebSocket push requests etc.).
 
-= Vaadin Spring tips
+== Vaadin Spring tips
 
-== Vaadin Spring (Boot) configuration properties
+=== Vaadin Spring (Boot) configuration properties
 
 Your project, if generated by https://start.spring.io/, contains a configuration file
 "src/main/resources/application.properties" or similar YAML configuration file. It is a handy way to configure the
@@ -718,7 +720,7 @@ Your project, if generated by https://start.spring.io/, contains a configuration
 
 For full list of available properties, see https://github.com/vaadin/spring/blob/master/vaadin-spring-boot/src/main/java/com/vaadin/spring/boot/internal/VaadinServletConfigurationProperties.java[VaadinServletConfigurationProperties.java].
 
-== Automatic view name generation
+=== Automatic view name generation
 
 Using explicit view names is strongly recommended, but it is possible to omit the view name, in which case a name is automatically generated based on the class name. If an explicit name is not provided the class name of the UI will be used to construct a pathname by the following convention: any trailing "View" will be truncated and camelcase will be converted to hyphenated lowercase. Some examples of the convention:
 
@@ -728,7 +730,7 @@ ExampleView → example
 
 VisualEditor → visual-editor
 
-== Listing Views
+=== Listing Views
 
 The list of available views can be obtained from `SpringViewProvider` bean using `getViewNamesForCurrentUI()`.
 

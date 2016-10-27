@@ -410,7 +410,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .show-for-print{display:inherit!important}}
 </style>
 </head>
-<body class="article toc2 toc-right">
+<body class="book toc2 toc-left">
 <div id="header">
 <h1>Vaadin Spring</h1>
 <div class="details">
@@ -422,26 +422,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_introduction">Introduction</a></li>
 <li><a href="#_vaadin_spring_for_the_impatient">Vaadin Spring for the impatient</a></li>
 <li><a href="#getting-started-boot">Getting Started with Vaadin Spring and Spring Boot</a>
-<ul class="sectlevel1">
+<ul class="sectlevel2">
 <li><a href="#_creating_a_spring_boot_project">Creating a Spring Boot project</a></li>
 <li><a href="#_creating_your_vaadin_ui">Creating your Vaadin UI</a></li>
 </ul>
 </li>
 <li><a href="#_injection_and_scopes_with_vaadin_spring">Injection and Scopes with Vaadin Spring</a>
-<ul class="sectlevel1">
+<ul class="sectlevel2">
 <li><a href="#_injecting_beans">Injecting beans</a></li>
 <li><a href="#__springui">@SpringUI</a></li>
 </ul>
 </li>
 <li><a href="#_views_and_navigation_with_vaadin_spring">Views and Navigation with Vaadin Spring</a>
-<ul class="sectlevel1">
+<ul class="sectlevel2">
 <li><a href="#_spring_views">Spring Views</a></li>
 <li><a href="#_views_and_scopes">Views and Scopes</a></li>
 <li><a href="#_access_control_and_error_views">Access Control and Error Views</a></li>
 </ul>
 </li>
 <li><a href="#getting-started-no-boot">Getting started with Vaadin Spring without Spring Boot</a>
-<ul class="sectlevel1">
+<ul class="sectlevel2">
 <li><a href="#_creating_a_vaadin_project">Creating a Vaadin project</a></li>
 <li><a href="#_adding_vaadin_spring_as_a_dependency">Adding Vaadin Spring as a dependency</a></li>
 <li><a href="#_creating_the_ui">Creating the UI</a></li>
@@ -449,25 +449,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_configuring_and_using_vaadin_spring_without_spring_boot">Configuring and Using Vaadin Spring without Spring Boot</a>
-<ul class="sectlevel1">
+<ul class="sectlevel2">
 <li><a href="#_using_vaadin_spring_without_spring_boot">Using Vaadin Spring without Spring Boot</a></li>
-<li><a href="#_configuration_options">Configuration options</a>
-<ul class="sectlevel2">
-<li><a href="#_annotation_based_configuration">Annotation based configuration</a></li>
-<li><a href="#_xml_configuration">XML configuration</a></li>
-</ul>
-</li>
-<li><a href="#_bootstrapping_a_vaadin_spring_application">Bootstrapping a Vaadin Spring application</a>
-<ul class="sectlevel2">
-<li><a href="#_using_contextloaderlistener_directly">Using ContextLoaderListener directly</a></li>
-<li><a href="#_using_a_webapplicationinitializer">Using a WebApplicationInitializer</a></li>
-<li><a href="#_a_note_on_spring_dispatcherservlet_and_spring_mvc">A note on Spring DispatcherServlet and Spring MVC</a></li>
-</ul>
-</li>
+<li><a href="#_configuration_options">Configuration options</a></li>
+<li><a href="#_bootstrapping_a_vaadin_spring_application">Bootstrapping a Vaadin Spring application</a></li>
 </ul>
 </li>
 <li><a href="#_vaadin_spring_tips">Vaadin Spring tips</a>
-<ul class="sectlevel1">
+<ul class="sectlevel2">
 <li><a href="#_vaadin_spring_boot_configuration_properties">Vaadin Spring (Boot) configuration properties</a></li>
 <li><a href="#_automatic_view_name_generation">Automatic view name generation</a></li>
 <li><a href="#_listing_views">Listing Views</a></li>
@@ -480,8 +469,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>Note</strong>: this tutorial applies to Vaadin Spring 1.1
-During these tutorials we will be solving a number of common problems when using the Vaadin Spring plugin. The principal
+<p><strong>Note</strong>: this tutorial applies to Vaadin Spring 1.1</p>
+</div>
+<div class="paragraph">
+<p>During these tutorials we will be solving a number of common problems when using the Vaadin Spring plugin. The principal
 question we will be addressing is "How do I gain access to Spring features in a Vaadin project?"</p>
 </div>
 </div>
@@ -511,7 +502,8 @@ alternative approaches will in the future be available as tags/branches at <a hr
 <h2 id="_vaadin_spring_for_the_impatient">Vaadin Spring for the impatient</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you are eager to get started right away without following the tutorial, feel free to do so. There are still some practical details that are good to keep in mind if you&#8217;re not familiar with Vaadin Spring or Spring in general.</p>
+<p>If you are eager to get started right away without following the tutorial, feel free to do so. There are still some
+practical details that are good to keep in mind if you&#8217;re not familiar with Vaadin Spring or Spring in general.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -530,14 +522,15 @@ class when the application is opened in the browser.</p>
 </div>
 </div>
 </div>
-<h1 id="getting-started-boot" class="sect0">Getting Started with Vaadin Spring and Spring Boot</h1>
+<div class="sect1">
+<h2 id="getting-started-boot">Getting Started with Vaadin Spring and Spring Boot</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>The fastest way to build and run a Spring application is to use Spring Boot. To build a Spring application without
 Spring Boot, refer to <a href="#getting-started-no-boot">Getting started with Vaadin Spring without Spring Boot</a>.</p>
 </div>
-<div class="sect1">
-<h2 id="_creating_a_spring_boot_project">Creating a Spring Boot project</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_creating_a_spring_boot_project">Creating a Spring Boot project</h3>
 <div class="paragraph">
 <p>The easiest way to get started is to go to <a href="https://start.spring.io/" class="bare">https://start.spring.io/</a> and fill in the necessary details.</p>
 </div>
@@ -554,10 +547,8 @@ Then download the generated project as a Maven Project and open it up in your fa
 <p>Import the generated project into your IDE - if using Eclipse, use <em>Import&#8230;&#8203;→Existing Maven Projects</em>.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_creating_your_vaadin_ui">Creating your Vaadin UI</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_creating_your_vaadin_ui">Creating your Vaadin UI</h3>
 <div class="paragraph">
 <p>Create a new UI class in your project and annotate it with <code>@SpringUI</code> e.g. like this:</p>
 </div>
@@ -578,13 +569,15 @@ public class MyUI extends UI {
 </div>
 </div>
 </div>
-<h1 id="_injection_and_scopes_with_vaadin_spring" class="sect0">Injection and Scopes with Vaadin Spring</h1>
+</div>
+<div class="sect1">
+<h2 id="_injection_and_scopes_with_vaadin_spring">Injection and Scopes with Vaadin Spring</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p><strong>Note</strong> also that even though this tutorial covers some of the basics of Spring, this is not a tutorial for Spring. If you are not familiar with Spring and Spring Boot, you should consult their tutorials and documentation.</p>
 </div>
-<div class="sect1">
-<h2 id="_injecting_beans">Injecting beans</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_injecting_beans">Injecting beans</h3>
 <div class="paragraph">
 <p>Now that the UI itself has been injected, we can use the <code>@Autowired</code> annotation to further inject beans to it. Let&#8217;s create something for us to actually inject.
 We&#8217;ll define the following class to inject to our UI:</p>
@@ -659,10 +652,8 @@ session scopes of Spring do not match exactly the Vaadin session and do not work
 operations even when using <code>UI.access()</code>.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="__springui">@SpringUI</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="__springui">@SpringUI</h3>
 <div class="paragraph">
 <p>The <code>@SpringUI</code> annotation is the way in which you let the Vaadin Spring plugin know which UI&#8217;s should be accessible to
 the user and how they should be mapped. It accepts one optional String parameter indicating the UI path. If an explicit
@@ -670,10 +661,12 @@ path is not provided or an empty string is used as the path, the UI will be mapp
 </div>
 </div>
 </div>
-<h1 id="_views_and_navigation_with_vaadin_spring" class="sect0">Views and Navigation with Vaadin Spring</h1>
+</div>
 <div class="sect1">
-<h2 id="_spring_views">Spring Views</h2>
+<h2 id="_views_and_navigation_with_vaadin_spring">Views and Navigation with Vaadin Spring</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_spring_views">Spring Views</h3>
 <div class="paragraph">
 <p>To support navigation between views, the annotations <code>@SpringView</code> and <code>@ViewContainer</code> can be used.</p>
 </div>
@@ -792,10 +785,8 @@ public class MyUI extends UI implements ViewDisplay {
 <p>Now fire up the application class and go to <a href="http://localhost:8080/" class="bare">http://localhost:8080/</a> to see this in action.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_views_and_scopes">Views and Scopes</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_views_and_scopes">Views and Scopes</h3>
 <div class="paragraph">
 <p>Let&#8217;s add one more view, this time a UI scoped view, and inject a <code>Greeter</code> into it:</p>
 </div>
@@ -895,10 +886,8 @@ public class ViewScopedView extends VerticalLayout implements View {
 <p>Now when switching views, the UI scoped greeter instance and the UI scoped view will stay the same, whereas the view scoped greeter (and the view itself) will be regenerated every time when entering the view.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_access_control_and_error_views">Access Control and Error Views</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_access_control_and_error_views">Access Control and Error Views</h3>
 <div class="paragraph">
 <p>When looking for accessible views, <code>SpringViewProvider</code> first looks for views that can be used with the current UI.
 It is possible to restrict a view to specific UI classes using an annotation parameter like <code>@SpringView(VIEW_NAME, ui={ MyUIClass.class })</code>.</p>
@@ -922,7 +911,10 @@ constructing a UI for navigation in a Vaadin Spring application easier.</p>
 </div>
 </div>
 </div>
-<h1 id="getting-started-no-boot" class="sect0">Getting started with Vaadin Spring without Spring Boot</h1>
+</div>
+<div class="sect1">
+<h2 id="getting-started-no-boot">Getting started with Vaadin Spring without Spring Boot</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p><strong>Note that this step is for using Vaadin Spring without Spring Boot. Using Spring Boot is the recommended approach for
 getting started quickly when creating a new project.</strong></p>
@@ -931,9 +923,8 @@ getting started quickly when creating a new project.</strong></p>
 <p>For more information on using Vaadin Spring with Spring Boot,
 see the step <a href="#getting-started-boot">Getting Started with Vaadin Spring and Spring Boot</a>.</p>
 </div>
-<div class="sect1">
-<h2 id="_creating_a_vaadin_project">Creating a Vaadin project</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_creating_a_vaadin_project">Creating a Vaadin project</h3>
 <div class="paragraph">
 <p>If you&#8217;ve created Vaadin projects before, there&#8217;s nothing new here. <em>File→New→Project&#8230;&#8203;</em> then select Maven Project.
 This will take you to the project creation wizard. You can also create the project using Vaadin Plug-in for Eclipse
@@ -950,10 +941,8 @@ artifact id and your package to your liking. (I used "org.vaadin", "spring.tutor
 respectively).</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_adding_vaadin_spring_as_a_dependency">Adding Vaadin Spring as a dependency</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_adding_vaadin_spring_as_a_dependency">Adding Vaadin Spring as a dependency</h3>
 <div class="paragraph">
 <p>Open "pom.xml" and add</p>
 </div>
@@ -985,10 +974,8 @@ respectively).</p>
 <p>Then save and update the project.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_creating_the_ui">Creating the UI</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_creating_the_ui">Creating the UI</h3>
 <div class="paragraph">
 <p>The project wizard created a UI for us that we&#8217;ll use as a starting point for building our application. There are some
 unnecessary things we&#8217;ll take out and some things we&#8217;ll need to add. We&#8217;ll also have to make a few changes to the UI to
@@ -1129,10 +1116,8 @@ src/main/webapp/WEB-INF/applicationContext.xml :</p>
 <p>A full description of alternative approaches to configuring Spring is outside the context of this tutorial and you should consult Spring documentation for them, but a brief introduction to them is given in this tutorial.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_deployment">Deployment</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_deployment">Deployment</h3>
 <div class="paragraph">
 <p>Once the UI is done we&#8217;ll deploy it to our server by <em>Run→Run as→Run on Server</em>. Select your server runtime (Tomcat in our case) and click Finish.</p>
 </div>
@@ -1144,10 +1129,12 @@ src/main/webapp/WEB-INF/applicationContext.xml :</p>
 </div>
 </div>
 </div>
-<h1 id="_configuring_and_using_vaadin_spring_without_spring_boot" class="sect0">Configuring and Using Vaadin Spring without Spring Boot</h1>
+</div>
 <div class="sect1">
-<h2 id="_using_vaadin_spring_without_spring_boot">Using Vaadin Spring without Spring Boot</h2>
+<h2 id="_configuring_and_using_vaadin_spring_without_spring_boot">Configuring and Using Vaadin Spring without Spring Boot</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_using_vaadin_spring_without_spring_boot">Using Vaadin Spring without Spring Boot</h3>
 <div class="paragraph">
 <p>In the previous tutorial steps, Spring Boot was used to initialize the context, configuration and servlet. This is the
 easiest way to set up a Spring application, but Spring also offers various other approaches both to configuration and
@@ -1172,10 +1159,8 @@ bootstrapping a Vaadin Spring application and loading the appropriate <code>WebA
 refer to Spring documentation.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_configuration_options">Configuration options</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_configuration_options">Configuration options</h3>
 <div class="paragraph">
 <p>Every Spring web application has one or more <code>ApplicationContexts</code> (typically an optional root context and a context
 per servlet), which provide read-only configuration for an application and e.g. bean factory methods for accessing
@@ -1187,8 +1172,8 @@ normally register the configuration class <code>VaadinConfiguration</code> to co
 is as a bean or to import XML configuration from an <code>@Configuration</code> class with <code>@ImportResource</code>.
 Refer to Spring documentation for more details on this.</p>
 </div>
-<div class="sect2">
-<h3 id="_annotation_based_configuration">Annotation based configuration</h3>
+<div class="sect3">
+<h4 id="_annotation_based_configuration">Annotation based configuration</h4>
 <div class="paragraph">
 <p>The recommended configuration option with Vaadin Spring is to use annotation based configuration
 (<code>AnnotationConfigWebApplicationContext</code>) and configuration classes annotated with <code>@Configuration</code>,
@@ -1218,8 +1203,8 @@ class with <code>@EnableVaadin</code>) in the context to bootstrap Vaadin Spring
 this with a <code>WebApplicationInitializer</code>.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_xml_configuration">XML configuration</h3>
+<div class="sect3">
+<h4 id="_xml_configuration">XML configuration</h4>
 <div class="paragraph">
 <p>If using XML based configuration of Spring (<code>XmlWebApplicationContext</code>), register the configuration class as a bean and
 enable annotation based configuration with <code>&lt;context:annotation-config/&gt;</code> or component scanning with
@@ -1244,16 +1229,14 @@ enable annotation based configuration with <code>&lt;context:annotation-config/&
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_bootstrapping_a_vaadin_spring_application">Bootstrapping a Vaadin Spring application</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_bootstrapping_a_vaadin_spring_application">Bootstrapping a Vaadin Spring application</h3>
 <div class="paragraph">
 <p>There are several options to start a <code>SpringVaadinServlet</code> (or a custom subclass of <code>VaadinServlet</code> that registers a
 <code>SpringUIProvider</code> if using e.g. Vaadin TouchKit) so that it has a suitable application context.</p>
 </div>
-<div class="sect2">
-<h3 id="_using_contextloaderlistener_directly">Using ContextLoaderListener directly</h3>
+<div class="sect3">
+<h4 id="_using_contextloaderlistener_directly">Using ContextLoaderListener directly</h4>
 <div class="paragraph">
 <p>An easy way to load the application context for a Spring application is to use a <code>ContextLoaderListener</code> as a servlet
 context listener to start and stop a Spring root <code>WebApplicationContext</code>. Once registered in your web.xml, with the
@@ -1280,8 +1263,8 @@ public class MyListener extends ContextLoaderListener {}</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_using_a_webapplicationinitializer">Using a WebApplicationInitializer</h3>
+<div class="sect3">
+<h4 id="_using_a_webapplicationinitializer">Using a WebApplicationInitializer</h4>
 <div class="paragraph">
 <p>A Spring <code>WebApplicationInitializer</code> can be used to manually set up a servlet and a context for it. Classes implementing
 <code>WebApplicationInitializer</code> are automatically scanned for and used to initialize servlets. Here is a simple example of
@@ -1313,8 +1296,8 @@ class placed in the same package with this class.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_a_note_on_spring_dispatcherservlet_and_spring_mvc">A note on Spring DispatcherServlet and Spring MVC</h3>
+<div class="sect3">
+<h4 id="_a_note_on_spring_dispatcherservlet_and_spring_mvc">A note on Spring DispatcherServlet and Spring MVC</h4>
 <div class="paragraph">
 <p>Spring MVC uses <code>DispatcherServlet</code>, which supports yet another method for bootstrapping by having the servlet
 initialize its own application context if none is configured from outside. However, <code>DispatcherServlet</code> makes some
@@ -1330,10 +1313,12 @@ session scope of Spring with Vaadin (it does not work in WebSocket push requests
 </div>
 </div>
 </div>
-<h1 id="_vaadin_spring_tips" class="sect0">Vaadin Spring tips</h1>
+</div>
 <div class="sect1">
-<h2 id="_vaadin_spring_boot_configuration_properties">Vaadin Spring (Boot) configuration properties</h2>
+<h2 id="_vaadin_spring_tips">Vaadin Spring tips</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_vaadin_spring_boot_configuration_properties">Vaadin Spring (Boot) configuration properties</h3>
 <div class="paragraph">
 <p>Your project, if generated by <a href="https://start.spring.io/" class="bare">https://start.spring.io/</a>, contains a configuration file
 "src/main/resources/application.properties" or similar YAML configuration file. It is a handy way to configure the
@@ -1356,10 +1341,8 @@ session scope of Spring with Vaadin (it does not work in WebSocket push requests
 <p>For full list of available properties, see <a href="https://github.com/vaadin/spring/blob/master/vaadin-spring-boot/src/main/java/com/vaadin/spring/boot/internal/VaadinServletConfigurationProperties.java">VaadinServletConfigurationProperties.java</a>.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_automatic_view_name_generation">Automatic view name generation</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_automatic_view_name_generation">Automatic view name generation</h3>
 <div class="paragraph">
 <p>Using explicit view names is strongly recommended, but it is possible to omit the view name, in which case a name is automatically generated based on the class name. If an explicit name is not provided the class name of the UI will be used to construct a pathname by the following convention: any trailing "View" will be truncated and camelcase will be converted to hyphenated lowercase. Some examples of the convention:</p>
 </div>
@@ -1373,19 +1356,18 @@ session scope of Spring with Vaadin (it does not work in WebSocket push requests
 <p>VisualEditor → visual-editor</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_listing_views">Listing Views</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_listing_views">Listing Views</h3>
 <div class="paragraph">
 <p>The list of available views can be obtained from <code>SpringViewProvider</code> bean using <code>getViewNamesForCurrentUI()</code>.</p>
 </div>
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-27 16:25:48 FLE Daylight Time
+Last updated 2016-10-27 16:58:24 FLE Daylight Time
 </div>
 </div>
 </body>
