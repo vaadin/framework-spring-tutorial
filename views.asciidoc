@@ -2,39 +2,6 @@
 
 
 == Spring Views
-We'll start off by modifying the UI we made in the previous tutorials to use `Views`.
-////
-todo remove?
-////
-To do that we'll inject a `SpringViewProvider` and instantiate a `Navigator`.
-
-
-[source, java]
-.MyUI.java
-----
-@Theme("mytheme")
-@SpringUI
-@ViewContainer
-public class MyUI extends UI implements ViewDisplay {
-
-    private Panel viewContainer;
-
-    @Override
-    protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout root = new VerticalLayout();
-        root.setSizeFull();
-        root.setMargin(true);
-        root.setSpacing(true);
-        setContent(root);
-
-        viewContainer = new Panel();
-        viewContainer.setSizeFull();
-        root.addComponent(viewContainer);
-        root.setExpandRatio(viewContainer, 1.0f);
-
-    }
-}
-----
 The views themselves should be annotated with `@SpringView` to be found by `SpringViewProvider`.
 
 Let's start with a default view:
@@ -53,7 +20,7 @@ public class DefaultView extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeEvent event) {
-        // the view is constructed in the init() method()
+        // This view is constructed in the init() method()
     }
 }
 ----
@@ -80,7 +47,7 @@ public class ViewScopedView extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeEvent event) {
-        // the view is constructed in the init() method()
+        // This view is constructed in the init() method()
     }
 }
 ----
@@ -90,10 +57,16 @@ opening http://localhost:8080#!view . However, we'll want to make it easy to ent
 [source, java]
 .MyUI.java
 ----
-public class MyUI extends UI {
-    ...
+@Theme("valo")
+@SpringUI
+@ViewContainer
+
+public class MyUI extends UI implements ViewDisplay {
+
+    private Panel viewContainer;
+
     @Override
-    protected void init(VaadinRequest vaadinRequest) {
+    protected void init(VaadinRequest request) {
         final VerticalLayout root = new VerticalLayout();
         root.setSizeFull();
         root.setMargin(true);
@@ -116,9 +89,15 @@ public class MyUI extends UI {
     private Button createNavigationButton(String caption, final String viewName) {
         Button button = new Button(caption);
         button.addStyleName(ValoTheme.BUTTON_SMALL);
-        // If you didn't choose Java 8 when creating the project, convert this to an anonymous listener class
+        // If you didn't choose Java 8 when creating the project, convert this
+        // to an anonymous listener class
         button.addClickListener(event -> getUI().getNavigator().navigateTo(viewName));
         return button;
+    }
+
+    @Override
+    public void showView(View view) {
+        viewContainer.setContent((Component) view);
     }
 }
 ----
@@ -130,7 +109,7 @@ Let's add one more view, this time a UI scoped view, and inject a `Greeter` into
 [source, java]
 .UIScopedView.java
 ----
-// pay attention to the order of annotations
+// Pay attention to the order of annotations
 @UIScope
 @SpringView(name = UIScopedView.VIEW_NAME)
 public class UIScopedView extends VerticalLayout implements View {
@@ -148,7 +127,7 @@ public class UIScopedView extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeEvent event) {
-        // the view is constructed in the init() method()
+        // This view is constructed in the init() method()
     }
 }
 ----
@@ -184,25 +163,32 @@ Note the annotation `@ViewScope`, which makes the lifecycle and injection of ins
 [source, java]
 .ViewScopedView.java
 ----
+@SpringView(name = ViewScopedView.VIEW_NAME)
 public class ViewScopedView extends VerticalLayout implements View {
-    ...
+    public static final String VIEW_NAME = "view";
 
-    // a new instance will be created for every view instance
+    // A new instance will be created for every view instance created
     @Autowired
     private ViewGreeter viewGreeter;
 
-    // the same instance will be used by all views of the UI
+    // The same instance will be used by all views of the UI
     @Autowired
     private Greeter uiGreeter;
 
     @PostConstruct
     void init() {
-        ...
+        setMargin(true);
+        setSpacing(true);
         addComponent(new Label("This is a view scoped view"));
         addComponent(new Label(uiGreeter.sayHello()));
         addComponent(new Label(viewGreeter.sayHello()));
     }
-    ...
+
+    @Override
+    public void enter(ViewChangeEvent event) {
+        // This view is constructed in the init() method()
+    }
+}
 ----
 Now when switching views, the UI scoped greeter instance and the UI scoped view will stay the same, whereas the view scoped greeter (and the view itself) will be regenerated every time when entering the view.
 
