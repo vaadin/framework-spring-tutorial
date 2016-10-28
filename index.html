@@ -472,7 +472,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>Note</strong>: this tutorial applies to Vaadin Spring 1.1</p>
 </div>
 <div class="paragraph">
-<p>During these tutorials we will be solving a number of common problems when using the Vaadin Spring plugin. The principal
+<p>During this tutorial we will be solving a number of common problems when using the Vaadin Spring plugin. The principal
 question we will be addressing is "How do I gain access to Spring features in a Vaadin project?"</p>
 </div>
 </div>
@@ -481,7 +481,7 @@ question we will be addressing is "How do I gain access to Spring features in a 
 <h2 id="_introduction">Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>At the end of these tutorials you will have learned how to</p>
+<p>At the end of this tutorial you will have learned how to</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -506,7 +506,8 @@ configuration of said environment is outside the scope of these tutorials.</p>
 </div>
 <div class="paragraph">
 <p>The tutorials will build off one another, each starting where the previous left off. Various steps of the tutorial and
-alternative approaches will in the future be available as tags/branches at <a href="https://github.com/vaadin/spring-tutorial" class="bare">https://github.com/vaadin/spring-tutorial</a>.</p>
+alternative approaches will in the future be available as tags/branches at <a href="https://github.com/vaadin/spring-tutorial" class="bare">https://github.com/vaadin/spring-tutorial</a>.
+More code samples could be found at <a href="https://github.com/vaadin/spring-demo7" class="bare">https://github.com/vaadin/spring-demo7</a> as well.</p>
 </div>
 </div>
 </div>
@@ -938,19 +939,28 @@ see the step <a href="#getting-started-boot">Getting Started with Vaadin Spring 
 <div class="sect2">
 <h3 id="_creating_a_vaadin_project">Creating a Vaadin project</h3>
 <div class="paragraph">
-<p>If you&#8217;ve created Vaadin projects before, there&#8217;s nothing new here. <em>File→New→Project&#8230;&#8203;</em> then select Maven Project.
-This will take you to the project creation wizard. You can also create the project using Vaadin Plug-in for Eclipse
-if you prefer.</p>
+<p>If you&#8217;ve created Vaadin projects before, there&#8217;s nothing new here. Vaadin projects can be created with
+Vaadin Eclipse Plug-in (for more information, see <a href="https://vaadin.com/eclipse" class="bare">https://vaadin.com/eclipse</a>)
+<em>File→New→Project&#8230;&#8203;</em> then select Vaadin Maven Project.
+This will take you to the project creation wizard.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="img/project-creation-no-boot.png" alt="Project Creation">
+<img src="img/eclipse-plugin-new-project.png" alt="Project Creation">
 </div>
 </div>
 <div class="paragraph">
-<p>Then select the Vaadin archetype (com.vaadin:vaadin-archetype-application:7.7.3). Set your group and
+<p>Then select the "Single Module Application Project". Set your group and
 artifact id and your package to your liking. (I used "org.vaadin", "spring.tutorial" and "org.vaadin.spring.tutorial"
 respectively).</p>
+</div>
+<div class="paragraph">
+<p>You can also create the project without the plug-in, just create a project from maven archetype
+<code>com.vaadin:vaadin-archetype-application:7.7.3</code> using Eclipse Maven wizard, or with your IDE,
+or with on the command line.</p>
+</div>
+<div class="paragraph">
+<p>For more information, see <a href="https://vaadin.com/maven" class="bare">https://vaadin.com/maven</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -977,7 +987,7 @@ respectively).</p>
 <pre class="highlight"><code class="language-xml" data-lang="xml">&lt;repositories&gt;
     &lt;repository&gt;
         &lt;id&gt;vaadin-addons&lt;/id&gt;
-        &lt;url&gt;http://maven.vaadin.com/vaadin-addons&lt;/url&gt;
+        &lt;url&gt;https://maven.vaadin.com/vaadin-addons&lt;/url&gt;
     &lt;/repository&gt;
 &lt;/repositories&gt;</code></pre>
 </div>
@@ -1137,7 +1147,7 @@ src/main/webapp/WEB-INF/applicationContext.xml :</p>
 <p>Eclipse should automatically open an embedded browser directed at your development server.</p>
 </div>
 <div class="paragraph">
-<p>Congratulations! You&#8217;ve deployed your first Spring application.</p>
+<p>Congratulations! You&#8217;ve deployed your Spring application.</p>
 </div>
 </div>
 </div>
@@ -1379,7 +1389,7 @@ session scope of Spring with Vaadin (it does not work in WebSocket push requests
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-27 17:30:45 FLE Daylight Time
+Last updated 2016-10-28 14:17:07 FLE Daylight Time
 </div>
 </div>
 </body>

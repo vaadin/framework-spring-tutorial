@@ -6,12 +6,12 @@ v1.1, 2016-10-26
 
 *Note*: this tutorial applies to Vaadin Spring 1.1
 
-During these tutorials we will be solving a number of common problems when using the Vaadin Spring plugin. The principal
+During this tutorial we will be solving a number of common problems when using the Vaadin Spring plugin. The principal
 question we will be addressing is "How do I gain access to Spring features in a Vaadin project?"
 
 == Introduction
 
-At the end of these tutorials you will have learned how to
+At the end of this tutorial you will have learned how to
 
 . Set up a Vaadin Spring project using Spring Boot
 . Create UI's and Views with Vaadin Spring
@@ -24,6 +24,7 @@ configuration of said environment is outside the scope of these tutorials.
 
 The tutorials will build off one another, each starting where the previous left off. Various steps of the tutorial and
 alternative approaches will in the future be available as tags/branches at https://github.com/vaadin/spring-tutorial.
+More code samples could be found at https://github.com/vaadin/spring-demo7 as well.
 
 == Vaadin Spring for the impatient
 
@@ -375,15 +376,22 @@ For more information on using Vaadin Spring with Spring Boot,
 see the step <<getting-started-boot>>.
 
 === Creating a Vaadin project
-If you've created Vaadin projects before, there's nothing new here. _File→New→Project..._ then select Maven Project.
-This will take you to the project creation wizard. You can also create the project using Vaadin Plug-in for Eclipse
-if you prefer.
+If you've created Vaadin projects before, there's nothing new here. Vaadin projects can be created with
+Vaadin Eclipse Plug-in (for more information, see https://vaadin.com/eclipse)
+_File→New→Project..._ then select Vaadin Maven Project.
+This will take you to the project creation wizard.
 
-image::project-creation-no-boot.png[Project Creation]
+image::eclipse-plugin-new-project.png[Project Creation]
 
-Then select the Vaadin archetype (com.vaadin:vaadin-archetype-application:7.7.3). Set your group and
+Then select the "Single Module Application Project". Set your group and
 artifact id and your package to your liking. (I used "org.vaadin", "spring.tutorial" and "org.vaadin.spring.tutorial"
 respectively).
+
+You can also create the project without the plug-in, just create a project from maven archetype
+`com.vaadin:vaadin-archetype-application:7.7.3` using Eclipse Maven wizard, or with your IDE,
+or with on the command line.
+
+For more information, see https://vaadin.com/maven.
 
 === Adding Vaadin Spring as a dependency
 
@@ -407,7 +415,7 @@ in the dependencies. If your project does not use the Vaadin add-on Maven reposi
 <repositories>
     <repository>
         <id>vaadin-addons</id>
-        <url>http://maven.vaadin.com/vaadin-addons</url>
+        <url>https://maven.vaadin.com/vaadin-addons</url>
     </repository>
 </repositories>
 ----
@@ -552,7 +560,7 @@ Once the UI is done we'll deploy it to our server by _Run→Run as→Run on Serv
 
 Eclipse should automatically open an embedded browser directed at your development server.
 
-Congratulations! You've deployed your first Spring application.
+Congratulations! You've deployed your Spring application.
 
 == Configuring and Using Vaadin Spring without Spring Boot
 
