@@ -13,7 +13,7 @@ import com.vaadin.ui.VerticalLayout;
 public class MyVaadinUI extends UI {
 
     @Autowired
-    private ViewPanel viewContainer;
+    private ViewPanel springViewDisplay;
 
     @Autowired
     private NavigationBar navigationBar;
@@ -28,7 +28,7 @@ public class MyVaadinUI extends UI {
 
         root.addComponent(navigationBar);
 
-        root.addComponent(viewContainer);
-        root.setExpandRatio(viewContainer, 1.0f);
+        root.addComponent(springViewDisplay);
+        root.setExpandRatio(springViewDisplay, 1.0f);
     }
 }
