@@ -151,7 +151,7 @@ path is not provided or an empty string is used as the path, the UI will be mapp
 == Views and Navigation with Vaadin Spring
 
 === Spring Views
-To support navigation between views, the annotations `@SpringView` and `@ViewContainer` can be used.
+To support navigation between views, the annotations `@SpringView` and `@SpringViewDisplay` can be used.
 
 The views themselves should be annotated with `@SpringView` to be found by `SpringViewProvider`.
 
@@ -203,11 +203,11 @@ public class ViewScopedView extends VerticalLayout implements View {
 }
 ----
 To define where in the UI the views are to be shown, a bean or a class implementing `ViewDisplay` or extending
-`(Single)ComponentContainer` should be annotated with `@ViewContainer`. In the simplest cases, this can be the UI class
+`(Single)ComponentContainer` should be annotated with `@SpringViewDisplay`. In the simplest cases, this can be the UI class
 itself.
 
 Also this view is automatically registered as it has the `@SpringView` annotation, so after annotating the UI with
-`@ViewContainer` we would be able to open it by opening http://localhost:8080#!view . However, we'll want to make it
+`@SpringViewDisplay` we would be able to open it by opening http://localhost:8080#!view . However, we'll want to make it
 easy to enter the view, so let's add a navigation button for it in the UI:
 
 [source, java]
@@ -215,10 +215,10 @@ easy to enter the view, so let's add a navigation button for it in the UI:
 ----
 @Theme("valo")
 @SpringUI
-@ViewContainer
+@SpringViewDisplay
 public class MyUI extends UI implements ViewDisplay {
 
-    private Panel viewContainer;
+    private Panel springViewDisplay;
 
     @Override
     protected void init(VaadinRequest request) {
@@ -234,10 +234,10 @@ public class MyUI extends UI implements ViewDisplay {
                 ViewScopedView.VIEW_NAME));
         root.addComponent(navigationBar);
 
-        viewContainer = new Panel();
-        viewContainer.setSizeFull();
-        root.addComponent(viewContainer);
-        root.setExpandRatio(viewContainer, 1.0f);
+        springViewDisplay = new Panel();
+        springViewDisplay.setSizeFull();
+        root.addComponent(springViewDisplay);
+        root.setExpandRatio(springViewDisplay, 1.0f);
 
     }
 
@@ -252,7 +252,7 @@ public class MyUI extends UI implements ViewDisplay {
 
     @Override
     public void showView(View view) {
-        viewContainer.setContent((Component) view);
+        springViewDisplay.setContent((Component) view);
     }
 }
 ----
