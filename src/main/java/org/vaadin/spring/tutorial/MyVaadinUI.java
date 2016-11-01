@@ -5,7 +5,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
-import com.vaadin.spring.annotation.ViewContainer;
+import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
@@ -16,10 +16,10 @@ import com.vaadin.ui.themes.ValoTheme;
 
 @Theme("valo")
 @SpringUI
-@ViewContainer
+@SpringViewDisplay
 public class MyVaadinUI extends UI implements ViewDisplay {
 
-    private Panel viewContainer;
+    private Panel springViewDisplay;
 
     @Override
     protected void init(VaadinRequest request) {
@@ -37,10 +37,10 @@ public class MyVaadinUI extends UI implements ViewDisplay {
                 ViewScopedView.VIEW_NAME));
         root.addComponent(navigationBar);
 
-        viewContainer = new Panel();
-        viewContainer.setSizeFull();
-        root.addComponent(viewContainer);
-        root.setExpandRatio(viewContainer, 1.0f);
+        springViewDisplay = new Panel();
+        springViewDisplay.setSizeFull();
+        root.addComponent(springViewDisplay);
+        root.setExpandRatio(springViewDisplay, 1.0f);
     }
 
     private Button createNavigationButton(String caption,
@@ -56,6 +56,6 @@ public class MyVaadinUI extends UI implements ViewDisplay {
 
     @Override
     public void showView(View view) {
-        viewContainer.setContent((Component) view);
+        springViewDisplay.setContent((Component) view);
     }
 }
