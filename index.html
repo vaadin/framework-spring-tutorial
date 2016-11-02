@@ -681,7 +681,7 @@ path is not provided or an empty string is used as the path, the UI will be mapp
 <div class="sect2">
 <h3 id="_spring_views">Spring Views</h3>
 <div class="paragraph">
-<p>To support navigation between views, the annotations <code>@SpringView</code> and <code>@ViewContainer</code> can be used.</p>
+<p>To support navigation between views, the annotations <code>@SpringView</code> and <code>@SpringViewDisplay</code> can be used.</p>
 </div>
 <div class="paragraph">
 <p>The views themselves should be annotated with <code>@SpringView</code> to be found by <code>SpringViewProvider</code>.</p>
@@ -739,12 +739,12 @@ public class ViewScopedView extends VerticalLayout implements View {
 </div>
 <div class="paragraph">
 <p>To define where in the UI the views are to be shown, a bean or a class implementing <code>ViewDisplay</code> or extending
-<code>(Single)ComponentContainer</code> should be annotated with <code>@ViewContainer</code>. In the simplest cases, this can be the UI class
+<code>(Single)ComponentContainer</code> should be annotated with <code>@SpringViewDisplay</code>. In the simplest cases, this can be the UI class
 itself.</p>
 </div>
 <div class="paragraph">
 <p>Also this view is automatically registered as it has the <code>@SpringView</code> annotation, so after annotating the UI with
-<code>@ViewContainer</code> we would be able to open it by opening <a href="http://localhost:8080#!view" class="bare">http://localhost:8080#!view</a> . However, we&#8217;ll want to make it
+<code>@SpringViewDisplay</code> we would be able to open it by opening <a href="http://localhost:8080#!view" class="bare">http://localhost:8080#!view</a> . However, we&#8217;ll want to make it
 easy to enter the view, so let&#8217;s add a navigation button for it in the UI:</p>
 </div>
 <div class="listingblock">
@@ -752,10 +752,10 @@ easy to enter the view, so let&#8217;s add a navigation button for it in the UI:
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">@Theme("valo")
 @SpringUI
-@ViewContainer
+@SpringViewDisplay
 public class MyUI extends UI implements ViewDisplay {
 
-    private Panel viewContainer;
+    private Panel springViewDisplay;
 
     @Override
     protected void init(VaadinRequest request) {
@@ -771,10 +771,10 @@ public class MyUI extends UI implements ViewDisplay {
                 ViewScopedView.VIEW_NAME));
         root.addComponent(navigationBar);
 
-        viewContainer = new Panel();
-        viewContainer.setSizeFull();
-        root.addComponent(viewContainer);
-        root.setExpandRatio(viewContainer, 1.0f);
+        springViewDisplay = new Panel();
+        springViewDisplay.setSizeFull();
+        root.addComponent(springViewDisplay);
+        root.setExpandRatio(springViewDisplay, 1.0f);
 
     }
 
@@ -789,7 +789,7 @@ public class MyUI extends UI implements ViewDisplay {
 
     @Override
     public void showView(View view) {
-        viewContainer.setContent((Component) view);
+        springViewDisplay.setContent((Component) view);
     }
 }</code></pre>
 </div>
@@ -1389,7 +1389,7 @@ session scope of Spring with Vaadin (it does not work in WebSocket push requests
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-28 14:17:07 FLE Daylight Time
+Last updated 2016-11-01 19:43:03 FLE Standard Time
 </div>
 </div>
 </body>
