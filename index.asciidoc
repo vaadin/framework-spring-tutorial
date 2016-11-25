@@ -403,7 +403,7 @@ Open "pom.xml" and add
 <dependency>
     <groupId>com.vaadin</groupId>
     <artifactId>vaadin-spring</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 </dependency>
 ----
 
@@ -742,4 +742,3 @@ VisualEditor → visual-editor
 === Listing Views
 
 The list of available views can be obtained from `SpringViewProvider` bean using `getViewNamesForCurrentUI()`.
-
