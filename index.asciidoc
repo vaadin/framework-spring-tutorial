@@ -4,7 +4,7 @@ v1.1, 2016-10-26
 :toc: left
 :homepage: http://asciidoctor.org
 
-*Note*: this tutorial applies to Vaadin Spring 1.1
+*Note*: this tutorial applies to Vaadin Spring 1.2
 
 During this tutorial we will be solving a number of common problems when using the Vaadin Spring plugin. The principal
 question we will be addressing is "How do I gain access to Spring features in a Vaadin project?"
@@ -403,7 +403,7 @@ Open "pom.xml" and add
 <dependency>
     <groupId>com.vaadin</groupId>
     <artifactId>vaadin-spring</artifactId>
-    <version>1.1.1</version>
+    <version>1.2.0</version>
 </dependency>
 ----
 
