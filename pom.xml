@@ -5,7 +5,7 @@
 
     <groupId>org.vaadin.spring</groupId>
     <artifactId>tutorial</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>tutorial</name>
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot-starter</artifactId>
-            <version>1.2.0</version>
+            <version>2.0.0</version>
         </dependency>
 
         <dependency>
@@ -43,7 +43,7 @@
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-bom</artifactId>
-                <version>7.7.6</version>
+                <version>8.0.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
