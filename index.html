@@ -419,7 +419,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .show-for-print{display:inherit!important}}
 </style>
 </head>
-<body class="article toc2 toc-left">
+<body class="book toc2 toc-left">
 <div id="header">
 <h1>Vaadin Spring</h1>
 <div class="details">
@@ -734,8 +734,6 @@ public class ViewScopedView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        setMargin(true);
-        setSpacing(true);
         addComponent(new Label("This is a view scoped view"));
     }
 
@@ -770,8 +768,6 @@ public class MyUI extends UI implements ViewDisplay {
     protected void init(VaadinRequest request) {
         final VerticalLayout root = new VerticalLayout();
         root.setSizeFull();
-        root.setMargin(true);
-        root.setSpacing(true);
         setContent(root);
 
         final CssLayout navigationBar = new CssLayout();
@@ -826,8 +822,6 @@ public class UIScopedView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        setMargin(true);
-        setSpacing(true);
         addComponent(new Label("This is a UI scoped view. Greeter says: " + greeter.sayHello()));
     }
 
@@ -890,8 +884,6 @@ public class ViewScopedView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        setMargin(true);
-        setSpacing(true);
         addComponent(new Label("This is a view scoped view"));
         addComponent(new Label(uiGreeter.sayHello()));
         addComponent(new Label(viewGreeter.sayHello()));
@@ -1035,8 +1027,6 @@ public class MyUI extends UI {
         });
 
         layout.addComponents(name, button);
-        layout.setMargin(true);
-        layout.setSpacing(true);
 
         setContent(layout);
     }
@@ -1107,8 +1097,6 @@ public class MyUI extends UI {
         });
 
         layout.addComponents(name, button);
-        layout.setMargin(true);
-        layout.setSpacing(true);
 
         setContent(layout);
     }
@@ -1364,7 +1352,7 @@ session scope of Spring with Vaadin (it does not work in WebSocket push requests
 <p><em>vaadin.servlet.heartbeatInterval=60</em></p>
 </li>
 <li>
-<p><em>vaadin.servlet.closeIdleSessions=true</em>"</p>
+<p><em>vaadin.servlet.closeIdleSessions=true</em></p>
 </li>
 </ul>
 </div>
@@ -1398,7 +1386,7 @@ session scope of Spring with Vaadin (it does not work in WebSocket push requests
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-02-27 15:56:41 FLE Standard Time
+Last updated 2017-02-28 10:42:10 FLE Standard Time
 </div>
 </div>
 </body>
