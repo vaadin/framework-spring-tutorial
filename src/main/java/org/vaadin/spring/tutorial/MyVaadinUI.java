@@ -22,8 +22,6 @@ public class MyVaadinUI extends UI {
     protected void init(VaadinRequest request) {
         final VerticalLayout root = new VerticalLayout();
         root.setSizeFull();
-        root.setMargin(true);
-        root.setSpacing(true);
         setContent(root);
 
         root.addComponent(navigationBar);
