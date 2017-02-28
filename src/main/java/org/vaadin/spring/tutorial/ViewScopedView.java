@@ -24,8 +24,6 @@ public class ViewScopedView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        setMargin(true);
-        setSpacing(true);
         addComponent(new Label("This is a view scoped view"));
         addComponent(new Label(uiGreeter.sayHello()));
         addComponent(new Label(viewGreeter.sayHello()));
