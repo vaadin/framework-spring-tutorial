@@ -1,3 +1,5 @@
+//To generate html: install asciidoctor and run
+// asciidoctor -b html5 -d book index.asciidoc
 = Vaadin Spring
 :imagesdir: img
 v2.0, 2017-02-27
@@ -191,8 +193,6 @@ public class ViewScopedView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        setMargin(true);
-        setSpacing(true);
         addComponent(new Label("This is a view scoped view"));
     }
 
@@ -224,8 +224,6 @@ public class MyUI extends UI implements ViewDisplay {
     protected void init(VaadinRequest request) {
         final VerticalLayout root = new VerticalLayout();
         root.setSizeFull();
-        root.setMargin(true);
-        root.setSpacing(true);
         setContent(root);
 
         final CssLayout navigationBar = new CssLayout();
@@ -275,8 +273,6 @@ public class UIScopedView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        setMargin(true);
-        setSpacing(true);
         addComponent(new Label("This is a UI scoped view. Greeter says: " + greeter.sayHello()));
     }
 
@@ -332,8 +328,6 @@ public class ViewScopedView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        setMargin(true);
-        setSpacing(true);
         addComponent(new Label("This is a view scoped view"));
         addComponent(new Label(uiGreeter.sayHello()));
         addComponent(new Label(viewGreeter.sayHello()));
@@ -450,8 +444,6 @@ public class MyUI extends UI {
         });
 
         layout.addComponents(name, button);
-        layout.setMargin(true);
-        layout.setSpacing(true);
 
         setContent(layout);
     }
@@ -519,8 +511,6 @@ public class MyUI extends UI {
         });
 
         layout.addComponents(name, button);
-        layout.setMargin(true);
-        layout.setSpacing(true);
 
         setContent(layout);
     }
