@@ -25,8 +25,6 @@ public class MyUI extends UI implements ViewDisplay {
     protected void init(VaadinRequest request) {
         final VerticalLayout root = new VerticalLayout();
         root.setSizeFull();
-        root.setMargin(true);
-        root.setSpacing(true);
         setContent(root);
 
         final CssLayout navigationBar = new CssLayout();
