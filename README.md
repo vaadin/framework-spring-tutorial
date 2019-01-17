@@ -3,7 +3,7 @@ Vaadin Spring tutorial
 
 This project contains the source code for the tutorial for using Vaadin and Spring together with the help of Spring Boot.
 
-The tutorial can be found [here](https://vaadin.github.io/spring-tutorial/).
+The tutorial can be found [here](https://vaadin.github.io/framework-spring-tutorial/).
 
 ## Running the project from command line
 
